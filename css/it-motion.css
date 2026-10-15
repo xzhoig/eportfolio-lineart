@@ -1,0 +1,103 @@
+/* Original computing details: quiet ink traces on the paper frame. */
+.frame-circuit {
+  position: absolute;
+  inset: 0 auto auto 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  max-width: none;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 900ms ease;
+  contain: paint;
+}
+.is-ready .frame-circuit { opacity: 1; }
+.frame-circuit__base,
+.frame-circuit__trace {
+  fill: none;
+  stroke: var(--text, #20211d);
+  stroke-width: .65;
+  vector-effect: non-scaling-stroke;
+}
+.frame-circuit__base { opacity: .075; }
+.frame-circuit__trace { opacity: .22; }
+.frame-circuit__node {
+  fill: var(--bg, #f5f3ec);
+  stroke: var(--text, #20211d);
+  stroke-width: .65;
+  opacity: .22;
+  vector-effect: non-scaling-stroke;
+}
+.frame-circuit__pulse {
+  fill: var(--accent, #bd3a24);
+  stroke: none;
+  opacity: .7;
+}
+.architectural-scene .screen-glass {
+  transition: fill 450ms ease;
+}
+.architectural-scene .screen-idle {
+  opacity: 1;
+  transition: opacity 250ms ease;
+}
+.architectural-scene .screen-code {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease;
+}
+.architectural-scene .screen-code text {
+  fill: var(--bg, #f5f3ec);
+  stroke: none;
+}
+.screen-awake .screen-glass { fill: var(--text, #20211d); }
+.screen-awake .screen-idle { opacity: 0; }
+.screen-awake .screen-code { opacity: 1; }
+.screen-code [data-code-caret] {
+  fill: var(--bg, #f5f3ec);
+  stroke: none;
+  opacity: .75;
+}
+.screen-awake.is-typing [data-code-caret] {
+  animation: terminal-caret 800ms steps(1, end) infinite;
+}
+.architectural-scene [data-signal-dot] {
+  fill: var(--accent, #bd3a24);
+  stroke: none;
+  opacity: 0;
+  pointer-events: none;
+}
+.is-ready .architectural-scene [data-signal-dot].signal-active { opacity: .75; }
+[data-screen-toggle] { white-space: nowrap; }
+
+@keyframes terminal-caret {
+  0%, 48% { opacity: .85; }
+  49%, 100% { opacity: 0; }
+}
+
+@media (max-width: 760px) {
+  .drawing-controls { flex-wrap: wrap; justify-content: flex-end; gap: 5px 15px; max-width: 63%; }
+  .drawing-caption > span { max-width: 34%; }
+  .drawing-controls button { min-height: 29px; }
+  .hero-art[data-inspect] { padding-bottom: 69px; }
+}
+@media (max-width: 480px) {
+  .hero-art[data-inspect] { height: 310px; padding-bottom: 86px; }
+  .drawing-caption { align-items: flex-start; gap: 10px; }
+  .drawing-caption > span { max-width: 32%; line-height: 1.8; }
+  .drawing-controls { max-width: 64%; gap: 2px 12px; }
+  .drawing-controls button { min-height: 29px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .frame-circuit,
+  .architectural-scene .screen-glass,
+  .architectural-scene .screen-idle,
+  .architectural-scene .screen-code { transition: none; }
+  .frame-circuit__pulse,
+  .architectural-scene [data-signal-dot] { display: none; }
+  .screen-awake.is-typing [data-code-caret] { animation: none; opacity: .75; }
+}
+@media print {
+  .frame-circuit { display: none !important; }
+  .architectural-scene [data-signal-dot] { display: none !important; }
+}
